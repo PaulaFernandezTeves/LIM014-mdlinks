@@ -74,13 +74,39 @@ const recursiveDirectory = (dirPath) => {
 //CHEERIO: te obtiene los links
 
 //FUNCION PARA CAMBIAR UN ARCHIVO A HTML Y EXTRAER LOS LINKS
-const transformToHtml = (fileMd) => {
-  const htmlFile = marked(fs.readFileSync(fileMd, 'utf8'));
-  const dom = cheerio.load(htmlFile);
-  dom('a').map()
+/*const searchLinks = (fileMd) => {
+  const markedFile = marked(fs.readFileSync(fileMd, 'utf8'));
+  const cheerioFile = cheerio.load(markedFile);
+  const allLinks =[];
+  cheerioFile('a').map(
+    (elemento, i) =>
+    (allLinks[elemento] = {
+      href: dom(i).attr('href'),
+      text: dom(i).text(),
+      file: fileMd,
+    })
+  );
+  return allLinks;
+};*/
+  const searchLinks = (fileMd) => {
+  const markedFile =  marked(fs.readFileSync(fileMd, 'utf8'));
+  const cheerioFile = cheerio.load(markedFile);
+  const allLinks = [];
+  cheerioFile('a').map(
+   ((element, i) => {
+      allLinks.push({
+        href: cheerioFile(i).attr('href'),
+        text: cheerioFile(i).text(),
+        file: fileMd,
+      })
+    })
+  )
+  return allLinks;
 };
 
-console.log(transformToHtml('../README.md'));
+
+
+console.log(searchLinks('C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md'));
 
 
 
@@ -93,5 +119,5 @@ module.exports = {
   isMdFile,
   directory,
   recursiveDirectory,
-  transformToHtml,
+  searchLinks,
 }

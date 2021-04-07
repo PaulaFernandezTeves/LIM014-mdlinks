@@ -5,7 +5,7 @@ const fs = require ('fs');
 //LIBRERÍAS
 const cheerio = require ('cheerio');
 const marked = require ('marked');
-
+const fetch = require ('node-fetch');
 //FUNCIÓN QUE ME DICE SI EL ARCHIVO EXISTE O ES UN DIRECTORIO
 const validatePath = (file) => fs.existsSync(file);
 //console.log(validatePath('../README.md'))
@@ -48,21 +48,23 @@ const fileExist = (file) => {
 //Funcion recursiva : LEER LOS ARCHIVOS QUE ESTÉN DENTRO DEL DIRECTORIO
 // Extract and save links from .md file in an array
 
-const recursiveDirectory = (dirPath) => {
+/*const recursiveDirectory = (dirPath) => {
   //Verifica si si existe el path
   const newArray = [];
   const dir = fs.readdirSync(dirPath);
-  dir.filter(isMdFile).forEach((newPath) => {
-    const contentPath = path.join(dirPath, newPath);
-    if (fs.statSync(contentPath).isDirectory()) {
-      newArray.push(contentPath, recursiveDirectory(contentPath));
+  /*dir.filter(isMdFile).forEach((newPath) => {*/
+    //dir.forEach((contentPath) => {
+    /*const contentPath = path.join(dirPath, newPath);*/
+    //if (fs.statSync(contentPath) && fs.statSync(contentPath).isDirectory()) {
+      /*newArray.push(contentPath, recursiveDirectory(contentPath));*/
+     /* newArray = newArray.concat(recursiveDirectory(contentPath))
     } else {
       newArray.push(contentPath);
     }
-  });
-   //console.log(recursiveDirectory('No tienes un archivo .md'));
-  return newArray.flat();
-};
+  });*/
+  // console.log(newArray,'64');
+  /*return newArray.flat();
+};*/
 
 //console.log(recursiveDirectory('C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1'));
 //console.log(recursiveDirectory('C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba2'));
@@ -88,6 +90,8 @@ const recursiveDirectory = (dirPath) => {
   );
   return allLinks;
 };*/
+
+//FUNCION PARA TRABAJAR EN HTML Y EXTRAER LINKS
   const searchLinks = (fileMd) => {
   const markedFile =  marked(fs.readFileSync(fileMd, 'utf8'));
   const cheerioFile = cheerio.load(markedFile);
@@ -104,11 +108,22 @@ const recursiveDirectory = (dirPath) => {
   return allLinks;
 };
 
+let totalLinks = searchLinks('../README.md');
+/*console.log(totalLinks,'110');*/
+// FUNCION PARA VALIDAR LOS LINKS
+/*const validateLinks = (links) => {
+  return
+}*/
 
+const validateLinks = (arrLinks) => {
+ const arr = arrLinks.map((obj) => fetch(obj.href)
+    .then((url) => ({ status: url.status, message: url.statusText, ...obj }))
+    .catch(() => ({ status: 500, message: 'Internal Server Error', ...obj })));
+  return Promise.all(arr);
+  /*console.log(arrLinks,'121');*/
+}
 
-console.log(searchLinks('C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md'));
-
-
+console.log(validateLinks(totalLinks));
 
 module.exports = {
   //validatePath,
@@ -120,4 +135,5 @@ module.exports = {
   directory,
   recursiveDirectory,
   searchLinks,
+  validateLinks,
 }

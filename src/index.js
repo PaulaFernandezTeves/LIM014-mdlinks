@@ -6,9 +6,14 @@ const fs = require ('fs');
 const cheerio = require ('cheerio');
 const marked = require ('marked');
 const fetch = require ('node-fetch');
+
 //FUNCIÓN QUE ME DICE SI EL ARCHIVO EXISTE O ES UN DIRECTORIO
 const validatePath = (file) => fs.existsSync(file);
 //console.log(validatePath('../README.md'))
+
+// NORMALIZE TO PATH
+const normalizePath = (route) => path.normalize(route);
+//console.log(normalizePath('../README.md'))   //me sale
 
 //RUTA ABSOLUTA
 const pathAbsolute = (route) => path.isAbsolute(route);
@@ -42,10 +47,11 @@ const fileExist = (file) => {
   } else {
     return 'La ruta es un directorio:' + ' ' + file;  }
 };
-/*console.log(fileExist('../README.md'));*/
+//console.log(fileExist('../README.md'));
+//console.log(fileExist('../pruebas'));
 
 
-//Funcion recursiva : LEER LOS ARCHIVOS QUE ESTÉN DENTRO DEL DIRECTORIO
+//FUNCION RECURSIVA : LEER LOS ARCHIVOS QUE ESTÉN DENTRO DEL DIRECTORIO
 // Extract and save links from .md file in an array
 
 /*const recursiveDirectory = (dirPath) => {
@@ -108,13 +114,14 @@ const fileExist = (file) => {
   return allLinks;
 };
 
-let totalLinks = searchLinks('../README.md');
+//let totalLinks = searchLinks('../README.md');
 /*console.log(totalLinks,'110');*/
+
+
 // FUNCION PARA VALIDAR LOS LINKS
 /*const validateLinks = (links) => {
   return
 }*/
-
 const validateLinks = (arrLinks) => {
  const arr = arrLinks.map((obj) => fetch(obj.href)
     .then((url) => ({ status: url.status, message: url.statusText, ...obj }))
@@ -123,17 +130,24 @@ const validateLinks = (arrLinks) => {
   /*console.log(arrLinks,'121');*/
 }
 
-console.log(validateLinks(totalLinks));
+//console.log(validateLinks(totalLinks));
+//validateLinks(totalLinks)
+ // .then((data) =>console.log(data))
+  //.catch((error) => console.log(error));
+
+
+
 
 module.exports = {
+  //normalizePath,
   //validatePath,
   //pathAbsolute,
   //relativeToAbsolute,
-  fileExist,
+  //fileExist,
   //files,
-  isMdFile,
+  //isMdFile,
   directory,
-  recursiveDirectory,
-  searchLinks,
-  validateLinks,
+  /*recursiveDirectory,*/
+  //searchLinks,
+  //validateLinks,
 }

@@ -11,17 +11,19 @@ const fetch = require ('node-fetch');
 const validatePath = (file) => fs.existsSync(file);
 //console.log(validatePath('../README.md'))
 
-// NORMALIZE TO PATH
-const normalizePath = (route) => path.normalize(route);
-//console.log(normalizePath('../README.md'))   //me sale
-
 //RUTA ABSOLUTA
 const pathAbsolute = (route) => path.isAbsolute(route);
 //console.log(pathAbsolute('/pruebas/prueba.md'))   //me sale true
 
 //RUTA RELATIVA A ABSOLUTA
-const relativeToAbsolute = (route) => path.resolve(route);
-//console.log(relativeToAbsolute('./prueba.md'))  //Me sale la ruta raiz
+const relativeToAbsolute = (route) => {
+  if(fs.existsSync(route)) {
+    return path.normalize(path.resolve(route));
+  } else {
+    return 'La ruta no existe';
+  }
+};
+//console.log(relativeToAbsolute('../README.md'))  //Me sale la extension de la ruta
 
 //LEER EL DIRECTORIO
 const files = (route) => fs.readdirSync(route);
@@ -41,7 +43,7 @@ const isMdFile = (route) => (path.extname(route) === '.md');
 
 /*SABER SI ES UN ARCHIVO O UN DIRECTORIO*/
 const fileExist = (file) => {
-  stat = fs.statSync(file);
+  const stat = fs.statSync(file);
   if (stat.isFile() === true) {
     return 'La ruta es un archivo:' + ' ' + file;
   } else {
@@ -139,14 +141,12 @@ const validateLinks = (arrLinks) => {
 
 
 module.exports = {
-  //normalizePath,
+  directory,
+  relativeToAbsolute,
   //validatePath,
   //pathAbsolute,
-  //relativeToAbsolute,
-  //fileExist,
-  //files,
+  fileExist,
   //isMdFile,
-  directory,
   /*recursiveDirectory,*/
   //searchLinks,
   //validateLinks,

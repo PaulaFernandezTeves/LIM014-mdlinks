@@ -116,8 +116,8 @@ const fileExist = (file) => {
   return allLinks;
 };
 
-//let totalLinks = searchLinks('../README.md');
-/*console.log(totalLinks,'110');*/
+//let totalLinks = searchLinks('../pruebas/prueba1/prueba3.md');
+//console.log(totalLinks,'110');
 
 
 // FUNCION PARA VALIDAR LOS LINKS
@@ -143,11 +143,11 @@ const validateLinks = (arrLinks) => {
 module.exports = {
   directory,
   relativeToAbsolute,
+  fileExist,
+  searchLinks,
   //validatePath,
   //pathAbsolute,
-  fileExist,
   //isMdFile,
   /*recursiveDirectory,*/
-  //searchLinks,
   //validateLinks,
 }

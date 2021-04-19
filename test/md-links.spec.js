@@ -36,10 +36,9 @@ const {
   directory,
   relativeToAbsolute,
   fileExist,
-  //isMdFile,
   searchLinks,
   //validateLinks,
-
+  //isMdFile,
 } = require ("../src/index.js");
 
 
@@ -77,32 +76,32 @@ describe('Función si es archivo o directorio', () => {
   });
 });
 
-describe("Función para trabjar con HTML y extraer links ", () => {
+describe("Función para trabajar con HTML y extraer links ", () => {
   test("debería retornar los links de los enlace ", () => {
     expect(searchLinks("C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md")).toEqual([
       {
         file: "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md",
         href: 'https://www.geeksforgeeks.org/nodejs-web-crawling-using-cheerio/',
         text: '"GeeksforGeeks, using cheerio  - Articulo"',
-      },
+      }
     ]);
   });
 });
 
 
-/*describe('validar links de array', () => {
-  it('is a function', () => {
-    expect(typeof md.validateLinks).toBe('function');
+/*describe('Función para validar los links', () => {
+  test('validateLinks es una función', () => {
+    expect(typeof validateLinks).toBe('function');
   });
-  it('return status "Internal Server Error"', (done) => {
-    md.validateLinks(arraylinkInValid)
-      .then((element) => {
-        expect(element[0].message).toBe('Internal Server Error');
+  test('return status "Internal Server Error"', (done) => {
+    validateLinks(arrayLinks)
+      .then((elemento) => {
+        expect(elemento[0].message).toBe('Internal Server Error');
         done();
       });
   });
-  it('return status 200', (done) => {
-    md.validateLinks(arraylinkValid)
+  test('return status 200', (done) => {
+    validateLinks(arrayLinks)
       .then((element) => {
         expect(element[0].status).toEqual(200);
         done();

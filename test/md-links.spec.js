@@ -37,8 +37,8 @@ const {
   relativeToAbsolute,
   fileExist,
   searchLinks,
-  //validateLinks,
-  //isMdFile,
+  recursiveDirectory,
+  validateLinks,
 } = require ("../src/index.js");
 
 
@@ -76,9 +76,26 @@ describe('Función si es archivo o directorio', () => {
   });
 });
 
-describe("Función para trabajar con HTML y extraer links ", () => {
-  test("debería retornar los links de los enlace ", () => {
-    expect(searchLinks("C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md")).toEqual([
+describe('Función recursiveDirectory para leer recursivamente el directorio', () => {
+  test('recursiveDirectory es una función', () => {
+    expect(typeof recursiveDirectory).toBe('function');
+  });
+  test('recursiveDirectory debe leer recursivamente el directorio y obtener solo los archivos .md', () => {
+    expect(recursiveDirectory("C:\\Users\\user\\LIM014-mdlinks\\pruebas")).toEqual([
+  "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba.md",
+  "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba2\\prueba4.md",
+  "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba2.md",
+  "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3\\prueba5.md",
+  "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md"]);
+  });
+});
+
+describe(" Función para extraer los links", () => {
+  test("debería retornar los links de los enlaces", () => {
+    expect(typeof searchLinks).toBe("function");
+  });
+  test("searchLinks debe retornar archivos .md y obtener los links de las 3 propiedades", () => {
+    expect(searchLinks(["C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md"])).toEqual([
       {
         file: "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md",
         href: 'https://www.geeksforgeeks.org/nodejs-web-crawling-using-cheerio/',
@@ -88,23 +105,72 @@ describe("Función para trabajar con HTML y extraer links ", () => {
   });
 });
 
+describe("validateLinks es una función", () => {
+  test("debería validar los links", () => {
+    expect(typeof validateLinks).toBe("function");
+  });
+  test('validateLinks debería retornar los stats de los links', () => {
+    return validateLinks(['C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md']).then((error) => {
+      expect(error).toEqual([{
+             "0": "C",
+             "1": ":",
+             "10": "s",
+             "11": "e",
+             "12": "r",
+             "13": "\\",
+             "14": "L",
+            "15": "I",
+             "16": "M",
+             "17": "0",
+             "18": "1",
+             "19": "4",
+             "2": "\\",
+             "20": "-",
+             "21": "m",
+             "22": "d",
+             "23": "l",
+            "24": "i",
+             "25": "n",
+             "26": "k",
+             "27": "s",
+             "28": "\\",
+             "29": "p",
+             "3": "U",
+             "30": "r",
+             "31": "u",
+             "32": "e",
+             "33": "b",
+             "34": "a",
+             "35": "s",
+             "36": "\\",
+             "37": "p",
+             "38": "r",
+             "39": "u",
+             "4": "s",
+             "40": "e",
+             "41": "b",
+             "42": "a",
+             "43": "1",
+             "44": "\\",
+             "45": "p",
+             "46": "r",
+             "47": "u",
+             "48": "e",
+             "49": "b",
+             "5": "e",
+             "50": "a",
+             "51": "3",
+             "52": ".",
+             "53": "m",
+             "54": "d",
+             "6": "r",
+             "7": "s",
+             "8": "\\",
+             "9": "u",
+            "message": "Internal Server Error",
+            "status": 500,
+      }])
+    })
+  });
+});
 
-/*describe('Función para validar los links', () => {
-  test('validateLinks es una función', () => {
-    expect(typeof validateLinks).toBe('function');
-  });
-  test('return status "Internal Server Error"', (done) => {
-    validateLinks(arrayLinks)
-      .then((elemento) => {
-        expect(elemento[0].message).toBe('Internal Server Error');
-        done();
-      });
-  });
-  test('return status 200', (done) => {
-    validateLinks(arrayLinks)
-      .then((element) => {
-        expect(element[0].status).toEqual(200);
-        done();
-      });
-  });
-});*/

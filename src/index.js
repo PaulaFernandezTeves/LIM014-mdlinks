@@ -56,21 +56,6 @@ const fileExist = (file) => {
 //console.log(fileExist('../README.md'));
 //console.log(fileExist('C:\\Users\\user\\LIM014-mdlinks'));
 
-const isDir = (route) => {
-  const exist = fs.existsSync(route);
-  let isDirectory;
-  if (exist === true) {
-    const stats = fs.statSync(route);
-    isDirectory = stats.isDirectory(route);
-  } else {
-    isDirectory = undefined;
-  }
-  return isDirectory;
-};
-
-//console.log(isDir('C:\\Users\\user\\LIM014-mdlinks\\src\\md-links.js')); /// false
-//console.log(isDir('C:\\Users\\user\\LIM014-mdlinks')); //true
-
 
 
 //FUNCION RECURSIVA : LEER LOS ARCHIVOS QUE ESTÉN DENTRO DEL DIRECTORIO
@@ -80,7 +65,6 @@ const recursiveDirectory = (dirPath) => {
   //Verifica si si existe el path
   let newArray = [];
   const dir = fs.readdirSync(dirPath);
-
     dir.forEach((newPath) => {
     const contentPath = path.join(dirPath, newPath);
     if (isMdFile(contentPath) === true) {
@@ -92,7 +76,7 @@ const recursiveDirectory = (dirPath) => {
   return newArray;
 };
 
-/*console.log(recursiveDirectory('C:\\Users\\user\\LIM014-mdlinks\\pruebas'));*/
+//console.log(recursiveDirectory('C:\\Users\\user\\LIM014-mdlinks\\pruebas'));
 
 //CONVERTIR con el marked y obtener los links con el cheerio
 //MARKED: convierte a HTML, los archivos md
@@ -117,21 +101,21 @@ const recursiveDirectory = (dirPath) => {
   return allLinks;
 };
 
-/*let totalLinks = searchLinks(['C:\\Users\\user\\LIM014-mdlinks\\README.md']);
-console.log(totalLinks);*/
+let totalLinks = searchLinks(['C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md']);
+//console.log(totalLinks);
 
 
 // FUNCION PARA VALIDAR LOS LINKS
 const validateLinks = (arrLinks) => {
  const arr = arrLinks.map((obj) => fetch(obj.href)
-    .then((url) => ({ status: url.status, message: url.statusText, ...obj }))
-    .catch(() => ({ status: 500, message: 'Internal Server Error', ...obj })));
+    .then((url) => ({ ...obj, status: url.status, message: url.statusText }))
+    .catch(() => ({ ...obj, status: 500, message: 'Internal Server Error' })));
   return Promise.all(arr);
   //console.log(arrLinks);
 }
 
-/*console.log(validateLinks(totalLinks));
-//validateLinks(totalLinks)
+//console.log(validateLinks(totalLinks));
+/*validateLinks(totalLinks)
  .then((data) =>console.log(data))
  .catch((error) => console.log(error));*/
 

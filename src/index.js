@@ -30,7 +30,7 @@ const relativeToAbsolute = (route) => {
 
 //LEER EL DIRECTORIO
 const readDirectory = (route) => fs.readdirSync(route);
-//console.log(readDirectory('../pruebas'))  //Me sale los archivos que están dentro de pruebas.
+//console.log(readDirectory('../pruebas'))  //Me sale los archivos que están dentro de pruebas en forma de array.
 
 //SISTEMA DE ARCHIVOS Nodejs, obtener información del archivo
 const stats = (route) => fs.statSync(route);
@@ -101,7 +101,7 @@ const recursiveDirectory = (dirPath) => {
   return allLinks;
 };
 
-let totalLinks = searchLinks(['C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md']);
+let totalLinks = searchLinks(['C:\\Users\\user\\LIM014-mdlinks\\README.md']);
 //console.log(totalLinks);
 
 
@@ -124,13 +124,14 @@ const validateLinks = (arrLinks) => {
 
 module.exports = {
   validatePath,
-  directory,
+  pathAbsolute,
+  relativeToAbsolute,
   readDirectory,
   stats,
+  directory,
   isMdFile,
-  relativeToAbsolute,
   fileExist,
+  recursiveDirectory,
   searchLinks,
   validateLinks,
-  recursiveDirectory,
 }

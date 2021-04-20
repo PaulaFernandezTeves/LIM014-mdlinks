@@ -1,53 +1,47 @@
-/*import { sumar, restar, multiplicar, dividir } from '../src/app.js';
-
-describe('Operaciones matemáticas', () => {
-    test('Realizamos la suma', () => {
-        expect(sumar(1,1)).toBe(2);
-    });
-    test('Realizamos la resta', () => {
-        expect(restar(1,1)).toBe(0);
-    });
-    test('Realizamos la multiplicacion', () => {
-        expect(multiplicar(1,1)).toBe(1);
-    });
-    test('Realizamos la division', () => {
-        expect(dividir(1,1)).toBe(1);
-    });
-});
-describe('Common matchers', () => {
-    const datos = {
-        nombre: 'Persona 1',
-        edad: 10
-    }
-    const datos2 = {
-        nombre: 'Persona 1',
-        edad: 10
-    }
-    test('Comprobamos que los objectos son iguales', () => {
-        expect(datos).toEqual(datos2);
-    });
-});
-*/
-
 
 //const {mdLinks} = require("./src/md-links.js");
 
 const {
-  directory,
+  validatePath,
+  pathAbsolute,
   relativeToAbsolute,
+  readDirectory,
+  directory,
   fileExist,
-  searchLinks,
   recursiveDirectory,
+  searchLinks,
   validateLinks,
 } = require ("../src/index.js");
 
+const arrayOfLInksValid = [{
+  file: 'C:\\Users\\user\\LIM014-mdlinks\\README.md',
+  href: 'https://developer.mozilla.org/es/docs/Glossary/Callback_function',
+  text: 'Uso de callbacks.'
+}];
 
-describe('Si es directorio o no', () => {
-    test('Directory es una función', () => {
-        expect(typeof directory).toBe('function');
-    });
+const arrayOfLInksValids = [{
+  file: 'C:\\Users\\user\\LIM014-mdlinks\\README.md',
+  href: '#9-checklist',
+  text: '9. Checklist'
+}];
+
+describe('Función que me valida la ruta, si es FALSE o TRUE', () => {
+  test('validatePath es una función', () => {
+      expect(typeof validatePath).toBe('function');
+  });
+  test('debería retornar true', () => {
+    expect(validatePath('C:\\Users\\user\\LIM014-mdlinks')).toBe(true);
+  });
 });
 
+describe('Función para ruta absoluta', () => {
+  test('pathAbsolute es una función', () => {
+      expect(typeof pathAbsolute).toBe('function');
+  });
+  test('debería retornar true', () => {
+    expect(pathAbsolute('/pruebas/prueba.md')).toBe(true);
+  });
+});
 
 describe('Función Relativa a Absoluta', () => {
   test('relativeToAbsolute es una función', () => {
@@ -63,6 +57,25 @@ describe('Función Relativa a Absoluta', () => {
   });
 });
 
+describe('Función de Leer directorio', () => {
+  test('readDirectory es una función', () => {
+    expect(typeof readDirectory).toBe('function');
+  });
+  test('readDirectory es una función', () => {
+    expect(readDirectory('C:\\Users\\user\\LIM014-mdlinks\\pruebas')).toEqual(['app.css', 'prueba.md', 'prueba.txt', 'prueba1']);
+  });
+});
+
+
+
+describe('Si es directorio o no', () => {
+  test('Directory es una función', () => {
+      expect(typeof directory).toBe('function');
+  });
+  test('retorna "C:\\Users\\user\\LIM014-mdlinks"', () => {
+    expect(pathAbsolute('C:\\Users\\user\\LIM014-mdlinks')).toBe(true);
+  });
+});
 
 describe('Función si es archivo o directorio', () => {
   test('fileExist es una función', () => {
@@ -105,72 +118,23 @@ describe(" Función para extraer los links", () => {
   });
 });
 
-describe("validateLinks es una función", () => {
-  test("debería validar los links", () => {
-    expect(typeof validateLinks).toBe("function");
+
+describe('debería validar los links del array si están rotos o no', () => {
+  test('validateLinks es una función', () => {
+    expect(typeof validateLinks).toBe('function');
   });
-  test('validateLinks debería retornar los stats de los links', () => {
-    return validateLinks(['C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md']).then((error) => {
-      expect(error).toEqual([{
-             "0": "C",
-             "1": ":",
-             "10": "s",
-             "11": "e",
-             "12": "r",
-             "13": "\\",
-             "14": "L",
-            "15": "I",
-             "16": "M",
-             "17": "0",
-             "18": "1",
-             "19": "4",
-             "2": "\\",
-             "20": "-",
-             "21": "m",
-             "22": "d",
-             "23": "l",
-            "24": "i",
-             "25": "n",
-             "26": "k",
-             "27": "s",
-             "28": "\\",
-             "29": "p",
-             "3": "U",
-             "30": "r",
-             "31": "u",
-             "32": "e",
-             "33": "b",
-             "34": "a",
-             "35": "s",
-             "36": "\\",
-             "37": "p",
-             "38": "r",
-             "39": "u",
-             "4": "s",
-             "40": "e",
-             "41": "b",
-             "42": "a",
-             "43": "1",
-             "44": "\\",
-             "45": "p",
-             "46": "r",
-             "47": "u",
-             "48": "e",
-             "49": "b",
-             "5": "e",
-             "50": "a",
-             "51": "3",
-             "52": ".",
-             "53": "m",
-             "54": "d",
-             "6": "r",
-             "7": "s",
-             "8": "\\",
-             "9": "u",
-            "message": "Internal Server Error",
-            "status": 500,
-      }])
-    })
+  test('retorna el estatus 200', (done) => {
+    validateLinks(arrayOfLInksValid)
+      .then((element) => {
+        expect(element[0].status).toEqual(200);
+        done();
+      });
+  });
+  test('mensaje de error "Internal Server Error"', (done) => {
+    validateLinks(arrayOfLInksValids)
+      .then((element) => {
+        expect(element[0].message).toEqual('Internal Server Error');
+        done();
+      });
   });
 });
-

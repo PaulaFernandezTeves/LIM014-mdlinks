@@ -1,5 +1,5 @@
 
-//const {mdLinks} = require("./src/md-links.js");
+
 
 const {
   validatePath,
@@ -12,6 +12,8 @@ const {
   searchLinks,
   validateLinks,
 } = require ("../src/index.js");
+
+//const {mdLinks} = require ("../src/md-links.js");
 
 const arrayOfLInksValid = [{
   file: 'C:\\Users\\user\\LIM014-mdlinks\\README.md',
@@ -113,7 +115,13 @@ describe(" Función para extraer los links", () => {
         file: "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md",
         href: 'https://www.geeksforgeeks.org/nodejs-web-crawling-using-cheerio/',
         text: '"GeeksforGeeks, using cheerio  - Articulo"',
-      }
+      },
+
+      {
+        file: "C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md",
+        href: 'http://www.abab.com.pe/aldo-bruno',
+        text: '\"AB & BA -Página NO encontrada\"',
+      },
     ]);
   });
 });
@@ -126,14 +134,14 @@ describe('debería validar los links del array si están rotos o no', () => {
   test('retorna el estatus 200', (done) => {
     validateLinks(arrayOfLInksValid)
       .then((element) => {
-        expect(element[0].status).toEqual(200);
+        expect(element[0].message).toEqual('OK');
         done();
       });
   });
-  test('mensaje de error "Internal Server Error"', (done) => {
+  test('mensaje de error "FAIL"', (done) => {
     validateLinks(arrayOfLInksValids)
       .then((element) => {
-        expect(element[0].message).toEqual('Internal Server Error');
+        expect(element[0].message).toEqual('FAIL');
         done();
       });
   });

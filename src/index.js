@@ -101,15 +101,17 @@ const recursiveDirectory = (dirPath) => {
   return allLinks;
 };
 
-let totalLinks = searchLinks(['C:\\Users\\user\\LIM014-mdlinks\\README.md']);
-//console.log(totalLinks);
+//let totalLinks = searchLinks(['C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md']);
+/*let totalLinks = searchLinks(['C:\\Users\\user\\LIM014-mdlinks\\README.md']);*/
+
+/*console.log(totalLinks);*/
 
 
 // FUNCION PARA VALIDAR LOS LINKS
 const validateLinks = (arrLinks) => {
  const arr = arrLinks.map((obj) => fetch(obj.href)
     .then((url) => ({ ...obj, status: url.status, message: url.statusText }))
-    .catch(() => ({ ...obj, status: 500, message: 'Internal Server Error' })));
+    .catch(() => ({ ...obj, status: 404, message: 'FAIL' })));
   return Promise.all(arr);
   //console.log(arrLinks);
 }
@@ -118,8 +120,6 @@ const validateLinks = (arrLinks) => {
 /*validateLinks(totalLinks)
  .then((data) =>console.log(data))
  .catch((error) => console.log(error));*/
-
-
 
 
 module.exports = {

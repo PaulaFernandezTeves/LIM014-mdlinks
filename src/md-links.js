@@ -39,10 +39,10 @@ const mdLinks = (paths, options = { validate : false}) =>
     }
 });
 
-mdLinks('C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md', {validate : true})
+/*mdLinks('C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md', {validate : true})
 //mdLinks('C:\\Users\\user\\LIM014-mdlinks\\pruebas', {validate : true})
 .then((data) => console.log(data))
-.catch((error) => console.log(error))
+.catch((error) => console.log(error))*/
 
 //  Export module
 module.exports =  {mdLinks};

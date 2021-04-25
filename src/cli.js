@@ -4,72 +4,55 @@ const [,,  ...args] = process.argv
 
 //console.log(`Hello World ${args}`)
 const validate = require("../src/index.js");
-const {mdlinks} = require ('../src/md-links.js')
+const {mdLinks} = require ('../src/md-links.js')
 const {chalk} = require ('chalk')
-/*const { program } = require('commander');*/
+const { program } = require('commander');
+
+const {
+  statLinks,
+  statsLinksPro,
+  //validateAndStats
+} = require ('../src/stats.js')
 
 
-//FUNCIÓN PARA VALIDAR LOS STATS
+program.version('0.0.1');
 
-const statsLinks = (links) => {
-  const stats = {};
-  const allStats = [];
-  links.map((link) => {
-    allStats.push(link);
-  });
-  if (links[0].status) {
-  stats.Total = allStats.length;
-  stats.Unique = unique(allStats);
-} else {
-  stats.Broken = broken(allStats).length;
-}
-  return stats;
-};
+program
 
-const unique = (linkstats) => {
-  const mySet = new Set();
-  linkstats.forEach((element) => mySet.add(element.href));
-  return mySet.size;
-};
+  .arguments('<path>')
+  .option('--validate')
+  .option('--stats')
+  .parse(process.argv);
 
-/*const broken = (linkstats) => {
-  return linkstats.filter((element) => element.status === 404);
-};*/
+  const myARGS = args;
+  //console.log(myARGS);
+  const path = myARGS[0];
+  const validates = myARGS.includes('--validate');
+  const stats = myARGS.includes('--stats');
 
-const validateAndStats = (objects) => {
-  const totalValidate = objects.length;
-  const uniqueValidate = objects.map((link) => link.href).length;
-  let broken = (linkstats) => {
-    if (linkstats.filter((element) => element.status === 404));
-  };
-  return { Total: totalValidate, Unique: uniqueValidate, Broken: broken };
-};
-
-//PRUEBA
-
-const prueba1 = [
-  {
-    href: 'https://www.geeksforgeeks.org/nodejs-web-crawling-using-cheerio/',
-    text: '"GeeksforGeeks, using cheerio  - Articulo"',
-    file: 'C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md',
-    status: 200,
-    message: 'OK'
-  },
-  {
-    href: 'http://www.abab.com.pe/aldo-bruno',
-    text: '"AB & BA -Página NO encontrada"',
-    file: 'C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md',
-    status: 404,
-    message: 'FAIL'
+if(myARGS.length === 3) {
+  if ( validates && stats) {
+    mdLinks(path, { validate: true })
+      .then((links) => {
+        console.log(statsLinksPro(links));
+      // [{Total,Unique, broken}]
+      });
+    }
+  } else if (myARGS.length === 2) {
+   if (myARGS[1] === '--stats') {
+    mdLinks(path, { validate: true })
+      .then((links) => {
+        console.log(statLinks(links));
+      })
+      //.catch(console.log('error'));
+    //  [{Total,Unique}]
+  } else if (myARGS[1] === '--validate') {
+    mdLinks(path, { validate: true })
+      .then((links) => {
+        console.log(links);
+      })
+      //.catch(console.log('error'));
   }
-]
-
-console.log(statsLinks(prueba1));
-//console.log(validateAndStats(prueba1));
-//console.log(broken(prueba1));
+};
 
 
-module.exports = {
-  statsLinks,
-  validateAndStats,
-}

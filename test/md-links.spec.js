@@ -27,8 +27,8 @@ const arrayOfLInksValids = [{
   text: '9. Checklist'
 }];
 
-describe('Función que me valida la ruta, si es FALSE o TRUE', () => {
-  test('validatePath es una función', () => {
+describe('validatePath debería ser una función', () => {
+  test('validatePath es una función que me valida la ruta, si es FALSE o TRUE', () => {
       expect(typeof validatePath).toBe('function');
   });
   test('debería retornar true', () => {
@@ -36,8 +36,8 @@ describe('Función que me valida la ruta, si es FALSE o TRUE', () => {
   });
 });
 
-describe('Función para ruta absoluta', () => {
-  test('pathAbsolute es una función', () => {
+describe('pathAbsolute debería ser una función', () => {
+  test('pathAbsolute es una función que me valida si la ruta es Absoluta o no', () => {
       expect(typeof pathAbsolute).toBe('function');
   });
   test('debería retornar true', () => {

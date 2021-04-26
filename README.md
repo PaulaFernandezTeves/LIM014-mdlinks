@@ -1,6 +1,14 @@
 # Markdown Links
 
-## Índice
+## DIAGRAMA DE API ✏
+
+![](https://github.com/PaulaFernandezTeves/LIM014-mdlinks/blob/main/img/Diagrama%20de%20Flujo%20-API.png?raw=true)
+
+## DIAGRAMA DE CLI ✏
+
+![](https://github.com/PaulaFernandezTeves/LIM014-mdlinks/blob/main/img/CLI.png?raw=true)
+
+## Índice ✔
 
 * [1. Preámbulo](#1-preámbulo)
 * [2. Resumen del proyecto](#2-resumen-del-proyecto)
@@ -401,4 +409,5 @@ si tienes dudas existenciales con respecto a estas decisiones. No existe una
 
 * [ ] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
   lines, y branches.
+
 * [ ] Pasa tests (y linters) (`npm test`).

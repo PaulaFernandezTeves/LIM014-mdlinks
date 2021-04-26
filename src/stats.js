@@ -31,7 +31,7 @@ const statLinks = (links) => {
 
 
 const unique = (linkstats) => {
-  const mySet = new Set();
+  const mySet = new Set();           //Set permite almacenar valores únicos de cualquier tipo, incluso valores primitivos u objetos.
   linkstats.forEach((element) => mySet.add(element.href));
   return mySet.size;
 };
@@ -80,5 +80,4 @@ const prueba1 = [
 module.exports = {
   statLinks,
   statsLinksPro,
-  //validateAndStats,
 }

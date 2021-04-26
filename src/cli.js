@@ -11,7 +11,6 @@ const { program } = require('commander');
 const {
   statLinks,
   statsLinksPro,
-  //validateAndStats
 } = require ('../src/stats.js')
 
 
@@ -34,7 +33,7 @@ if(myARGS.length === 3) {
   if ( validates && stats) {
     mdLinks(path, { validate: true })
       .then((links) => {
-        console.log(statsLinksPro(links));
+        console.table(statsLinksPro(links));
       // [{Total,Unique, broken}]
       });
     }
@@ -42,17 +41,17 @@ if(myARGS.length === 3) {
    if (myARGS[1] === '--stats') {
     mdLinks(path, { validate: true })
       .then((links) => {
-        console.log(statLinks(links));
+        console.table(statLinks(links));
       })
       //.catch(console.log('error'));
     //  [{Total,Unique}]
   } else if (myARGS[1] === '--validate') {
     mdLinks(path, { validate: true })
       .then((links) => {
-        console.log(links);
+        console.table(links);
       })
       //.catch(console.log('error'));
   }
 };
 
-
+//md-links C:\\Users\\user\\LIM014-mdlinks\\pruebas\\prueba1\\prueba3.md --stats --validate

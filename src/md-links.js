@@ -1,7 +1,7 @@
 //const { truncate } = require("fs");
 const md = require("../src/index.js");
 
-//FUNCION QUE UNE TODAS LAS FUNCIONES EN UNA SOLA  - EXTRAER Y VALIDAR LINKS DE ARCHIVOS md
+//FUNCION QUE UNE TODAS LAS FUNCIONES DEL INDEX.JS EN UNA SOLA  - EXTRAER Y VALIDAR LINKS DE ARCHIVOS md
 
 
 const mdLinks = (paths, options = { validate : false}) =>

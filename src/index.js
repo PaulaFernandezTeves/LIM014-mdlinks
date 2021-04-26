@@ -8,7 +8,7 @@ const marked = require ('marked');
 const fetch = require ('node-fetch');
 
 //FUNCIÓN QUE ME VALIDA LA RUTA, SI ES FALSE O TRUE
-const validatePath = (file) => fs.existsSync(file);
+const validatePath = (file) => fs.existsSync(file);      //(file) contiene la ruta del archivo que se debe verificar.
 //console.log(validatePath('../index.txt'))
 //console.log(validatePath('C:\\Users\\user\\LIM014-mdlinks'));
 
@@ -43,7 +43,7 @@ const directory = (dirPath) => stats(dirPath).isDirectory();
 
 // Revisa si la extensión es .md
 const isMdFile = (route) => (path.extname(route) === '.md');
-//console.log(isMdFile('../README.md'))
+//console.log(isMdFile('../README.md'))  //True
 
 /*SABER SI ES UN ARCHIVO O UN DIRECTORIO*/
 const fileExist = (file) => {
@@ -59,7 +59,7 @@ const fileExist = (file) => {
 
 
 //FUNCION RECURSIVA : LEER LOS ARCHIVOS QUE ESTÉN DENTRO DEL DIRECTORIO
-// Extract and save links from .md file in an array
+// Extrae y salva links de un archivo .md a un array.
 
 const recursiveDirectory = (dirPath) => {
   //Verifica si si existe el path
@@ -89,7 +89,7 @@ const recursiveDirectory = (dirPath) => {
       const markedFile =  marked(fs.readFileSync(file, 'utf8'));
       const cheerioFile = cheerio.load(markedFile);
       cheerioFile('a').map(
-        ((element, i) => {
+         ((element, i) => {
            allLinks.push({
              href: cheerioFile(i).attr('href'),
              text: cheerioFile(i).text(),
